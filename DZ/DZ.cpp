@@ -1006,7 +1006,8 @@ NodeTree* getFreeNode(TT value, NodeTree* parent)
 }
 
 // Вставка узла
-void insert(NodeTree** head, int value) {
+void insert(NodeTree** head, int value)
+{
 	NodeTree* tmp = NULL;
 	if (*head == NULL)
 	{
@@ -1051,7 +1052,7 @@ void insert(NodeTree** head, int value) {
 	}
 }
 
-void preOrderTravers(NodeTree* root)
+void preOrderTravers(NodeTree* root) //обход в прямом порядке КЛП – «корень – левый – правый» 
 {
 	if (root)
 	{
@@ -1060,14 +1061,91 @@ void preOrderTravers(NodeTree* root)
 		preOrderTravers(root->right);
 	}
 }
+void inOrderTravers(NodeTree* root) //симметричный обход ЛКП – «левый – корень – правый»
+{
+	if (root)
+	{
+		inOrderTravers(root->left);
+		printf("%d ", root->data);
+		inOrderTravers(root->right);
+	}
+}
+void postOrderTravers(NodeTree* root) //обход в обратном порядке ЛПК – «левый–правый–корень»
+{
+	if (root)
+	{
+		postOrderTravers(root->left);
+		postOrderTravers(root->right);
+		printf("%d ", root->data);
+	}
+}
+
+
+NodeTree* getMinNodeTree(NodeTree* root) //минимальный элемент дерева
+{
+	while (root->left)
+		root = root->left;
+	return root;
+}
+
+
+NodeTree* getMaxNodeTree(NodeTree* root) //максимальный элемент
+{
+	while (root->right)
+		root = root->right;
+	return root;
+}
+
+NodeTree* getNodeTreeByValue(NodeTree* root, TT value)
+{
+	while (root)
+	{
+		if (root->data > value)
+		{
+			root = root->left;
+			continue;
+		}
+		else if (root->data < value)
+		{
+			root = root->right;
+			continue;
+		}
+		else
+		{
+			return root;
+		}
+	}
+	return NULL;
+}
+
+
+
+// Построение идеально сбалансированного дерева с n узлами
+NodeTree* IdealTree(int n)
+{
+	NodeTree* newNode;
+	int x, nl, nr;
+	if (n == 0)
+		newNode = NULL;
+	else
+	{
+		//fscanf(file, "%d", &x);
+		nl = n / 2;
+		nr = n - nl - 1;
+		newNode = (NodeTree*)malloc(sizeof(NodeTree));
+		newNode->data = x;
+		newNode->left = IdealTree(nl);
+		newNode->right = IdealTree(nr);
+	}
+	return newNode;
+}
 
 void HW62() // "2. Реализовать двоичное дерево поиска а) Добавить обход дерева различными способами; б) Реализовать поиск в двоичном дереве поиска;\n";
 {
 	system("cls");
 
-
 	srand(time(0));
-	int const size = 10;
+	int const size = 20;
 	int rnd = 100;
 	int arr[size];
 	NodeTree* Tree = NULL;
@@ -1077,17 +1155,21 @@ void HW62() // "2. Реализовать двоичное дерево поис
 		insert(&Tree, arr[i]);
 	}
 
-
 	ShowArr(arr, size, true, "Массив данных: ");
 	//Bubble2(arr, size, true, "\n");			
 
-	//printf("\nдвоичного дерева в виде скобочной записи:");
-	//printTree(Tree);
-	//printf("\nPreOrderTravers:");
-	//preOrderTravers(Tree);
+	printf("\nДерево: ");
+	printTree(Tree);
+	printf("\n\nPreOrderTravers: ");
+	preOrderTravers(Tree);
+	printf("\n\nInOrderTravers: ");
+	inOrderTravers(Tree);
+	printf("\n\nPostOrderTravers: ");
+	postOrderTravers(Tree);
 
-
-
+	printf("\nМинимальный элемент массива: %d ", getMinNodeTree(Tree)->data);
+	printf("\nМаксимальный элемент массива: %d ", getMaxNodeTree(Tree)->data);
+	printf("\nПоследний элемент массива: %d ", getNodeTreeByValue(Tree, arr[size - 1])->data);
 
 	cin.ignore().get();
 }
