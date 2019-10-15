@@ -1031,7 +1031,7 @@ void insert(NodeTree** head, int value)
 				return;
 			}
 		}
-		else if (value <= tmp->data)   //Также обрабатываем левую ветвь
+		else if (value < tmp->data)   //Также обрабатываем левую ветвь
 		{
 			if (tmp->left)
 			{
@@ -1046,7 +1046,7 @@ void insert(NodeTree** head, int value)
 		}
 		else
 		{
-			printf("Алярма!!!!!!!!!!!!");
+			printf("Алярма!!!!!!!!!!!! Элементы не должны повторятся!");
 			exit(2);                     // Дерево построено неправильно
 		}
 	}
@@ -1110,35 +1110,24 @@ NodeTree* getNodeTreeByValue(NodeTree* root, TT value)
 			root = root->right;
 			continue;
 		}
-		else
-		{
+		else		
 			return root;
-		}
+		
 	}
 	return NULL;
 }
 
-
-
-// Построение идеально сбалансированного дерева с n узлами
-NodeTree* IdealTree(int n)
+int FindTheSame(int* arr, int value, int size)
 {
-	NodeTree* newNode;
-	int x, nl, nr;
-	if (n == 0)
-		newNode = NULL;
-	else
+	int z = 0;
+	for (int i = 0; i < size; i++)
 	{
-		//fscanf(file, "%d", &x);
-		nl = n / 2;
-		nr = n - nl - 1;
-		newNode = (NodeTree*)malloc(sizeof(NodeTree));
-		newNode->data = x;
-		newNode->left = IdealTree(nl);
-		newNode->right = IdealTree(nr);
+		if (arr[i] == value)
+			z = 1;		
 	}
-	return newNode;
+	return z;
 }
+
 
 void HW62() // "2. Реализовать двоичное дерево поиска а) Добавить обход дерева различными способами; б) Реализовать поиск в двоичном дереве поиска;\n";
 {
@@ -1148,11 +1137,18 @@ void HW62() // "2. Реализовать двоичное дерево поис
 	int const size = 20;
 	int rnd = 100;
 	int arr[size];
+	int x;
 	NodeTree* Tree = NULL;
 	for (int i = 0; i < size; i++)
 	{
-		arr[i] = rand() % rnd;
-		insert(&Tree, arr[i]);
+ 		x= rand() % rnd;
+		if (FindTheSame(arr, x, i) == 0)
+		{
+			arr[i] = x;
+			insert(&Tree, x);
+		}
+		else
+			i--;
 	}
 
 	ShowArr(arr, size, true, "Массив данных: ");
