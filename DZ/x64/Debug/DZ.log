@@ -1,0 +1,6 @@
+﻿  DZ.cpp
+D:\Dropbox\С#\C-Algorithms\DZ\DZ3.h(144,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+D:\Dropbox\С#\C-Algorithms\DZ\DZ5.h(190,15): warning C4101: Stack2: неиспользованная локальная переменная
+D:\Dropbox\С#\C-Algorithms\DZ\DZ6.h(191,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+D:\Dropbox\С#\C-Algorithms\DZ\DZ.cpp(33,11): warning C4129:: неизвестная escape-последовательность
+  DZ.vcxproj -> D:\Dropbox\С#\C-Algorithms\DZ\x64\Debug\DZ.exe
